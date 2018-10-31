@@ -6,11 +6,22 @@ class Block {
     this.timestamp = timestamp;
     this.data = data;
     this.previousHash = previousHash;
-    this.hash = '';
+    this.hash = this.caculateHash();
+    this.nonce = 0;
   }
 
   caculateHash() {
-    return SHA356(this.index + this.previousHash + this.timestamp + JSON.stringify(this.data)).toString();
+    return SHA356(this.index + this.previousHash + this.timestamp + JSON.stringify(this.data) + this.nonce).toString();
+  }
+
+  mineBlock(difficulty) {
+    while (this.hash.substring(0, difficulty) !== Array(difficulty + 1).join('0')) {
+      // console.log(`Mining Hash Block ${this.index} (nonce: ${this.nonce})`, this.hash);
+      this.nonce++;
+      this.hash = this.caculateHash();
+    }
+    console.log('Mined Successfuly', this.hash);
+    return this.hash;
   }
 
 }
@@ -18,6 +29,7 @@ class Block {
 class BlockChain {
   constructor() {
     this.chain =[this.createGenesisBlock()];
+    this.difficulty = 4;
   }
 
   createGenesisBlock() {
@@ -29,7 +41,8 @@ class BlockChain {
 
   addBlock(newBlock) {
     newBlock.previousHash = this.getLatestBlock().hash;
-    newBlock.hash = newBlock.caculateHash();
+    // newBlock.hash = newBlock.caculateHash();
+    newBlock.mineBlock(this.difficulty);
     this.chain.push(newBlock);
   }
 
@@ -52,12 +65,14 @@ class BlockChain {
 }
 
 const ktvCoin = new BlockChain();
+console.log('Mining Block 1......');
 ktvCoin.addBlock(new Block(1, '11/11/2018', { amount: 10 }));
+console.log('Mining Block 2......');
 ktvCoin.addBlock(new Block(2, '11/12/2018', { amount: 20 }));
-console.log('Is Valid Chain', ktvCoin.isValidChain());
-ktvCoin.chain[1].data = { amount: 100 }
-console.log('Is Valid Chain', ktvCoin.isValidChain());
-ktvCoin.chain[1].hash = ktvCoin.chain[1].caculateHash();
-console.log('Is Valid Chain', ktvCoin.isValidChain());
+// console.log('Is Valid Chain', ktvCoin.isValidChain());
+// ktvCoin.chain[1].data = { amount: 100 }
+// console.log('Is Valid Chain', ktvCoin.isValidChain());
+// ktvCoin.chain[1].hash = ktvCoin.chain[1].caculateHash();
+// console.log('Is Valid Chain', ktvCoin.isValidChain());
 
 console.log(JSON.stringify(ktvCoin, null, 4));
