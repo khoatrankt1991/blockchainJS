@@ -1,0 +1,24 @@
+{
+  "name": "javascript_blockchain",
+  "version": "1.0.0",
+  "description": "# Lesson 1:   Create a chain of block and try to modify the value of specific block then isValidBlock be false",
+  "main": "main.js",
+  "dependencies": {
+    "crypto-js": "^3.1.9-1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/khoatrankt1991/blockchainJS.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/khoatrankt1991/blockchainJS/issues"
+  },
+  "homepage": "https://github.com/khoatrankt1991/blockchainJS#readme"
+}
